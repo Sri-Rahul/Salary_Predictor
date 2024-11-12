@@ -105,11 +105,11 @@ NEXT_PUBLIC_PREDICT_URL=your_api_url
 npm start
 ```
 
-📝 Environment Variables
+##📝 Environment Variables
 The following environment variables are required:
 NEXT_PUBLIC_PREDICT_URL=your_api_url
 
-🤝 Contributing
+##🤝 Contributing
 Contributions, issues and feature requests are welcome. Feel free to check issues page if you want to contribute.
 
 ## 🔧 Backend
@@ -117,5 +117,5 @@ Contributions, issues and feature requests are welcome. Feel free to check issue
 This project uses a Python Flask backend for salary predictions. The backend repository can be found at:
 [salary-prediction-backend](https://github.com/Sri-Rahul/salary-prediction-backend)
 
-📜 License
+##📜 License
 This project is MIT licensed. ```
