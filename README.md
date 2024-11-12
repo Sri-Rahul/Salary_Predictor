@@ -90,19 +90,20 @@ A modern web application that predicts starting salaries based on academic backg
 1. Clone the repository
 ```bash
 git clone https://github.com/Sri-Rahul/Salary_Predictor.git
-
+```
 2. Install dependencies
-
+```bash
 cd salary-predictor
 npm install
-
+```
 3. Install dependencies
 Create .env file with API configuration with the following code
 NEXT_PUBLIC_PREDICT_URL=your_api_url
 
 4.Start development server
-
+```bash
 npm start
+```
 
 📝 Environment Variables
 The following environment variables are required:
@@ -110,6 +111,11 @@ NEXT_PUBLIC_PREDICT_URL=your_api_url
 
 🤝 Contributing
 Contributions, issues and feature requests are welcome. Feel free to check issues page if you want to contribute.
+
+## 🔧 Backend
+
+This project uses a Python Flask backend for salary predictions. The backend repository can be found at:
+[salary-prediction-backend](https://github.com/Sri-Rahul/salary-prediction-backend)
 
 📜 License
 This project is MIT licensed. ```
