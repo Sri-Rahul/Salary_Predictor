@@ -89,24 +89,24 @@ A modern web application that predicts starting salaries based on academic backg
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/salary-predictor.git
+git clone https://github.com/Sri-Rahul/Salary_Predictor.git
 
 2. Install dependencies
-```bash
+
 cd salary-predictor
 npm install
 
 3. Install dependencies
 Create .env file with API configuration with the following code
-REACT_APP_API_URL=your_api_url
+NEXT_PUBLIC_PREDICT_URL=your_api_url
 
 4.Start development server
-```bash
+
 npm start
 
 📝 Environment Variables
 The following environment variables are required:
-REACT_APP_API_URL: Backend API URL
+NEXT_PUBLIC_PREDICT_URL=your_api_url
 
 🤝 Contributing
 Contributions, issues and feature requests are welcome. Feel free to check issues page if you want to contribute.
