@@ -68,7 +68,7 @@ export function HeroTitle() {
 
           <Button
             component="a"
-            href="https://github.com/yourusername/your-repo"
+            href="https://github.com/Sri-Rahul/Salary_Predictor"
             size="xl"
             variant="default"
             leftSection={<IconBrandGithub size={20} />}
