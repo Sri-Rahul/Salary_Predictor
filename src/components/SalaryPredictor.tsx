@@ -250,15 +250,131 @@ const SalaryPredictor = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  // Add the new mapRatingToOriginalScale function
 
-  // Update the mapRatingToOriginalScale function definition
-const mapRatingToOriginalScale = (rating: number | null, minVal: number, maxVal: number): number | null => {
-  if (!rating) return null;
-  return Math.round(minVal + ((maxVal - minVal) * (rating - 1)) / 4);
+// Add the clamp helper function
+const clamp = (value: number, min: number, max: number): number => {
+  return Math.min(Math.max(value, min), max);
 };
 
-  // Existing imports remain the same...
+// Add new personality trait mapping function
+// Removed duplicate mapPersonalityTrait function
+
+// Keep original mapping function
+const mapRatingToOriginalScale = (rating: number | null, minVal: number, maxVal: number): number | null => {
+  if (!rating) return null;
+  return minVal + ((maxVal - minVal) * (rating - 1)) / 4;
+};
+
+// Helper function for floating point comparison with tolerance
+const isInRange = (value: number, min: number, max: number): boolean => {
+  const tolerance = 0.0001;
+  return value >= (min - tolerance) && value <= (max + tolerance);
+};
+
+// Precise clamp function
+const clampPrecise = (value: number, min: number, max: number): number => {
+  return Number(Math.min(Math.max(value, min), max).toFixed(4));
+};
+
+// Updated personality trait mapping function
+const mapPersonalityTrait = (rating: number | null, minVal: number, maxVal: number): number | null => {
+  if (!rating) return null;
+  
+  // Input validation
+  if (rating < 1 || rating > 5) {
+    throw new Error('Rating must be between 1 and 5');
+  }
+
+  // Special handling for value distribution
+  // Convert 1-5 to -1 to 1 range first
+  const normalizedValue = -1 + ((rating - 1) / 2);
+  
+  // Calculate weighted scaling to better distribute values
+  const midpoint = (maxVal + minVal) / 2;
+  const rangeToMid = rating <= 3 ? 
+    Math.abs(midpoint - minVal) : 
+    Math.abs(maxVal - midpoint);
+    
+  // Apply non-linear scaling for better distribution
+  const weightedValue = normalizedValue * 
+    (normalizedValue < 0 ? Math.abs(minVal/2) : Math.abs(maxVal/2));
+    
+  // Calculate final value with more precise control
+  const scaledValue = Number((
+    midpoint + (weightedValue * (rangeToMid / Math.max(Math.abs(minVal), Math.abs(maxVal))))
+  ).toFixed(4));
+  
+  // Ensure value is within bounds
+  return clampPrecise(scaledValue, minVal, maxVal);
+};
+
+// Usage in handleSubmit:
+const conscientiousnessScaled = conscientiousnessRating ? 
+  mapPersonalityTrait(conscientiousnessRating, -3.8933, 1.9953) : null;
+
+// Helper for precise number handling
+const toPrecision = (num: number): number => Number(num.toFixed(4));
+
+const isValidExtraversion = (value: number): boolean => {
+  return value >= -4.6009 && value <= 2.1617;
+};
+
+// Map 1-5 scale to extraversion range
+const mapExtraversion = (rating: number): number => {
+  const MIN_EXTRAVERSION = -4.6009;
+  const MAX_EXTRAVERSION = 2.1617;
+  
+  // Map 1-5 scale to required range
+  const mapped = mapPersonalityTrait(rating, MIN_EXTRAVERSION, MAX_EXTRAVERSION);
+  
+  // Validate result
+  if (mapped === null || !isValidExtraversion(mapped)) {
+    throw new Error('Mapped extraversion value outside valid range');
+  }
+  
+  return toPrecision(mapped);
+};
+
+// Usage:
+try {
+  const extraversionScaled = extraversionRating ? 
+    mapExtraversion(extraversionRating) : null;
+} catch (error) {
+  console.error('Error mapping extraversion:', error instanceof Error ? error.message : 'Unknown error');
+  // Handle error appropriately (e.g. show user feedback)
+}
+
+// Validation function for openness values
+const isValidOpenness = (value: number): boolean => {
+  return value >= -7.3757 && value <= 1.6302;
+};
+
+// Map 1-5 scale to openness range
+const mapOpenness = (rating: number): number => {
+  const MIN_OPENNESS = -7.3757;
+  const MAX_OPENNESS = 1.6302;
+  
+  const mapped = mapPersonalityTrait(rating, MIN_OPENNESS, MAX_OPENNESS);
+  
+  if (mapped === null || !isValidOpenness(mapped)) {
+    throw new Error('Mapped openness value outside valid range');
+  }
+  
+  return toPrecision(mapped);
+};
+
+// Usage in handleSubmit:
+try {
+  const opennessScaled = opennessToExperienceRating ? 
+    mapOpenness(opennessToExperienceRating) : null;
+  
+  // Use scaled value in prediction...
+} catch (error) {
+  console.error('Error mapping openness:', error instanceof Error ? error.message : 'Unknown error');
+  setError('Invalid openness value');
+  setLoading(false);
+  return;
+}
 
 const handleSubmit = async () => {
   setLoading(true);
@@ -278,12 +394,17 @@ const handleSubmit = async () => {
     const telecomScaled = experience.includes('Telecom Engineering') ? mapRatingToOriginalScale(rating, -1, 548) : -1;
     const civilScaled = experience.includes('Civil Engineering') ? mapRatingToOriginalScale(rating, -1, 500) : -1;
 
-    // Map personality traits with null checks
-    const conscientiousnessScaled = conscientiousnessRating ? mapRatingToOriginalScale(conscientiousnessRating, -3.8933, 1.9953) : null;
+    // Map personality traits
+    const conscientiousnessScaled = conscientiousnessRating ? mapPersonalityTrait(conscientiousnessRating, -3.8933, 1.9953) : null;
     const agreeablenessScaled = agreeablenessRating ? mapRatingToOriginalScale(agreeablenessRating, -5.7816, 1.9048) : null;
-    const extraversionScaled = extraversionRating ? mapRatingToOriginalScale(extraversionRating, -4.6009, 2.1617) : null;
+    const extraversionScaled = extraversionRating ? mapExtraversion(extraversionRating) : null;
     const neuroticismScaled = neuroticismRating ? mapRatingToOriginalScale(neuroticismRating, -2.643, 3.3525) : null;
-    const opennessScaled = opennessToExperienceRating ? mapRatingToOriginalScale(opennessToExperienceRating, -7.3757, 1.6302) : null;
+    const opennessScaled = opennessToExperienceRating ? mapOpenness(opennessToExperienceRating) : null;
+
+    // Add validation checks
+    if (conscientiousnessScaled !== null && (conscientiousnessScaled < -3.8933 || conscientiousnessScaled > 1.9953)) {
+      throw new Error('Conscientiousness value out of range');
+    }
 
     const payload = {
       Gender: gender,
@@ -582,8 +703,8 @@ const ratingOptions = [
             styles={selectStyles}
           />
           <Select
-            label="Rate your Quant skills"
-            placeholder="Rate your Quant skills (1-5)"
+            label="Rate your Quantative skills"
+            placeholder="Rate your Quantative skills (1-5)"
             data={[
               { value: '1', label: '1 - Beginner' },
               { value: '2', label: '2 - Basic' },
@@ -600,11 +721,11 @@ const ratingOptions = [
             label="On a scale of 1 to 5, how much do you agree with the statement: I consistently set high standards for myself and ensure my work is thoroughly checked before completion."
             placeholder="(1-5)"
             data={[
-              { value: '1', label: '1 - Strongly Disagree' },
-              { value: '2', label: '2 - Disagree' },
+              { value: '5', label: '1 - Strongly Disagree' },
+              { value: '4', label: '2 - Disagree' },
               { value: '3', label: '3 - Neutral' },
-              { value: '4', label: '4 - Agree' },
-              { value: '5', label: '5 - Strongly Agree' },
+              { value: '2', label: '4 - Agree' },
+              { value: '1', label: '5 - Strongly Agree' },
             ]}
             value={conscientiousnessRating !== null ? conscientiousnessRating.toString() : ''}
             onChange={(value) => setConscientiousnessRating(value ? parseInt(value) : null)}
@@ -613,13 +734,13 @@ const ratingOptions = [
           />
           <Select
             label="I prioritize maintaining harmonious relationships and often seek ways to help my colleagues succeed."
-            placeholder="Rate your Agreeableness (1-5)"
+            placeholder="(1-5)"
             data={[
-              { value: '1', label: '1 - Strongly Disagree' },
-              { value: '2', label: '2 - Disagree' },
+              { value: '5', label: '1 - Strongly Disagree' },
+              { value: '4', label: '2 - Disagree' },
               { value: '3', label: '3 - Neutral' },
-              { value: '4', label: '4 - Agree' },
-              { value: '5', label: '5 - Strongly Agree' },
+              { value: '2', label: '4 - Agree' },
+              { value: '1', label: '5 - Strongly Agree' },
             ]}
             value={agreeablenessRating !== null ? agreeablenessRating.toString() : ''}
             onChange={(value) => setAgreeablenessRating(value ? parseInt(value) : null)}
@@ -643,7 +764,7 @@ const ratingOptions = [
           />
           <Select
             label="I often find myself concerned about potential challenges and tend to analyze situations deeply before acting."
-            placeholder="Rate your Neuroticism (1-5)"
+            placeholder="(1-5)"
             data={[
               { value: '1', label: '1 - Strongly Disagree' },
               { value: '2', label: '2 - Disagree' },
@@ -658,13 +779,13 @@ const ratingOptions = [
           />
           <Select
             label="I actively seek out new learning opportunities and enjoy exploring unconventional approaches to problem-solving."
-            placeholder="Rate your Openness to Experience (1-5)"
+            placeholder="(1-5)"
             data={[
-              { value: '1', label: '1 - Strongly Disagree' },
-              { value: '2', label: '2 - Disagree' },
+              { value: '5', label: '1 - Strongly Disagree' },
+              { value: '4', label: '2 - Disagree' },
               { value: '3', label: '3 - Neutral' },
-              { value: '4', label: '4 - Agree' },
-              { value: '5', label: '5 - Strongly Agree' },
+              { value: '2', label: '4 - Agree' },
+              { value: '1', label: '5 - Strongly Agree' },
             ]}
             value={opennessToExperienceRating !== null ? opennessToExperienceRating.toString() : ''}
             onChange={(value) => setOpennessToExperienceRating(value ? parseInt(value) : null)}
