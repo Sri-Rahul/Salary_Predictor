@@ -1,121 +1,130 @@
-# 🚀 Salary Prediction Application
+# 🎯 Salary Prediction App
 
-A modern web application that predicts starting salaries based on academic background, skills, and personality traits using machine learning.
+An intelligent web application that predicts starting salaries for professionals based on their academic background, technical skills, and personality traits using advanced machine learning algorithms.
 
-![Salary Predictor Screenshot](./public/main.png)
+![Salary Predictor](./public/main.png)
 
-## ✨ Features
+## ✨ Key Features
 
-- Interactive form with comprehensive input validation
-- Real-time salary predictions
-- Responsive design that works on all devices
-- Beautiful UI with smooth animations
-- Secure API integration
+- 📊 Accurate salary predictions using ML models
+- 🎨 Modern, intuitive user interface with Mantine UI
+- 📱 Fully responsive design for all devices
+- ✅ Comprehensive form validation
+- 🔄 Real-time updates and predictions
+- 🛡️ Secure API integration
+- 📈 Interactive salary visualization
 
-## 🛠️ Technology Stack
+## 🛠️ Tech Stack
 
-### Frontend
-- **React.js** - UI library
-- **TypeScript** - Type safety and better developer experience
-- **Mantine UI** - Component library for modern web applications
-- **Tabler Icons** - Beautiful open source icons
+### Frontend Architecture
+- **React + TypeScript** - For robust, type-safe UI development
+- **Mantine UI** - Modern component library with dark mode support
+- **Axios** - Secure API communication
+- **Tabler Icons** - Beautiful, consistent iconography
 
-### Backend Integration  
-- RESTful API integration
-- Environment variable configuration
-- Error handling and loading states
+### State Management & Validation
+- React Hooks for local state
+- Form validation with real-time feedback
+- Error boundary implementation
+- Loading state management
 
-### Styling & UI
-- Custom styled components
-- Responsive layout
-- Gradient effects
-- Modern form controls
-- Interactive components
+## 📊 Prediction Parameters
 
-### Deployment
-- Netlify for frontend hosting
-- Heroku for backend API
-- Environment variable management
+### 🎓 Academic Metrics
+- 10th & 12th board examination scores
+- College GPA and tier
+- Specialization and degree details
+- Graduation year
 
-## 🎯 Key Features Breakdown
+### 💻 Technical Skills Assessment
+- Computer Programming
+- Electronics & Semiconductors
+- Computer Science fundamentals
+- Engineering disciplines:
+  - Mechanical
+  - Electrical
+  - Telecom
+  - Civil
 
-### Form Components
-- Comprehensive input validation
-- Interactive select dropdowns
-- Number input with constraints
-- Rating systems
-- Loading states
-- Error handling
-
-### Prediction Features
-- Academic background analysis
-- Skills assessment
-    - Computer Programming
-    - Electronics and Semiconductors  
-    - Computer Science
-    - Mechanical Engineering
-    - Electrical Engineering
-    - Telecom Engineering
-    - Civil Engineering
-
-### Personality Assessment
+### 🧠 Personality Evaluation
+The app considers key personality traits:
 - Conscientiousness
-- Agreeableness  
+- Agreeableness
 - Extraversion
 - Neuroticism
 - Openness to Experience
 
-### Academic Inputs
-- 10th & 12th board details
-- College information
-- Specialization
-- GPA tracking
-- Graduation year
-
-## 🎨 UI Components
-
-- **Container** - Wrapper for content layout
-- **Paper** - Card-like surfaces
-- **Stack** - Flex container for form layout
-- **Select** - Dropdown menus
-- **NumberInput** - Numerical inputs
-- **Button** - Action triggers
-- **Alert** - Error messages
-- **Title** - Section headers
-- **Space** - Layout spacing
-- **Text** - Typography
-
 ## 🚀 Getting Started
 
-1. Clone the repository
+1. **Clone the Repository**
 ```bash
 git clone https://github.com/Sri-Rahul/Salary_Predictor.git
-```
-2. Install dependencies
-```bash
 cd salary-predictor
+```
+
+2. **Install Dependencies**
+```bash
 npm install
 ```
-3. Install dependencies
-Create .env file with API configuration with the following code
-NEXT_PUBLIC_PREDICT_URL=your_api_url
 
-4.Start development server
-```bash
-npm start
+3. **Configure Environment**
+Create a `.env` file in the root directory:
+```env
+NEXT_PUBLIC_PREDICT_URL=your_prediction_api_url
 ```
 
-##📝 Environment Variables
-The following environment variables are required:
-NEXT_PUBLIC_PREDICT_URL=your_api_url
+4. **Start Development Server**
+```bash
+npm run dev
+```
 
-##🤝 Contributing
-Contributions, issues and feature requests are welcome. Feel free to check issues page if you want to contribute.
+## 🔗 API Integration
 
-## 🔧 Backend
+The application integrates with a Flask-based machine learning backend for predictions. Backend repository: [Salary Prediction Backend](https://github.com/Sri-Rahul/salary-prediction-backend)
 
-This project uses a Python Flask backend for salary predictions. The backend repository can be found at:
-[salary-prediction-backend](https://github.com/Sri-Rahul/salary-prediction-backend)
+### API Features:
+- RESTful architecture
+- Secure data transmission
+- Comprehensive error handling
+- Rate limiting
+- CORS support
 
-##📜 License
-This project is MIT licensed. ```
+## 💡 Usage Tips
+
+1. **Accurate Data Entry**
+   - Provide precise academic scores
+   - Rate technical skills honestly
+   - Complete all personality assessments
+
+2. **Understanding Results**
+   - Predictions are based on historical data
+   - Results show annual CTC in INR
+   - Consider market variations
+
+## 🤝 Contributing
+
+We welcome contributions! Here's how you can help:
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
+## 🌟 Acknowledgments
+
+- Mantine UI team for the amazing component library
+- Contributors and testers
+- ML model training dataset providers
+
+## 📧 Contact
+
+- Project Link: https://github.com/Sri-Rahul/Salary_Predictor
+
+---
+
+<p align="center">Made with ❤️ by Rahul</p>
