@@ -111,10 +111,6 @@ We welcome contributions! Here's how you can help:
 4. Push to branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
-
 ## 🌟 Acknowledgments
 
 - Mantine UI team for the amazing component library
